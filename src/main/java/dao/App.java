@@ -1,12 +1,12 @@
-package com.company;
+package dao;
 
 import model.Person;
 
-public class test {
+public class App {
     public static void main (String [] args){
        PersonDAOImpl personDAO = new PersonDAOImpl();
-        Person person=new Person(7,"musa","kalan");
-        personDAO.UpdatePerson(person);
+        Person person=new Person(7,"ali","genc");
+        personDAO.updatePerson();
        System.out.println(person);
     }
 }
