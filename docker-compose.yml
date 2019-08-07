@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.17
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: crud
+      MYSQL_USER: utku
+      MYSQL_PASSWORD: utku5858
+      MYSQL_ROOT_PASSWORD: utku5858
+    volumes:
+      - data/var/lib/mysql/
+volumes:
+  data:
+
+
+
