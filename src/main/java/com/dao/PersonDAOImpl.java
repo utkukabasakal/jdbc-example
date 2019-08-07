@@ -1,7 +1,7 @@
-package dao;
+package com.dao;
 
 import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseTraversers;
-import model.Person;
+import com.model.Person;
 
 import java.util.*;
 import java.io.*;
@@ -15,10 +15,10 @@ public class PersonDAOImpl implements PersonDAO {
     private String jdbcUsername;
     private String jdbcPassword;
 
-    private final String GET_PERSON_ID = "SELECT * FROM person Where personId=?";
-    private final String ADD_PERSON = "INSERT INTO person(personId,personName,personSurname) VALUES(?,?,?)";
-    private final String UPDATE_PERSON = "UPDATE person SET personName=?,personSurname=? WHERE personId=? ";
-    private final String DELETE_USER = "  DELETE FROM person WHERE personId=?";
+    private final String GET_PERSON_ID = "SELECT * FROM person Where id=?";
+    private final String ADD_PERSON = "INSERT INTO person(id,isim,soyisim) VALUES(?,?,?)";
+    private final String UPDATE_PERSON = "UPDATE person SET isim=?,soyisim=? WHERE id=? ";
+    private final String DELETE_USER = "  DELETE FROM person WHERE id=?";
 
     public PersonDAOImpl() {
         setConnection();
@@ -73,7 +73,7 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public  void updatePerson(Person person) {
+    public void updatePerson(Person person) {
         try {
             execute(UPDATE_PERSON, person.getIsim(), person.getSoyisim(), person.getId());
             System.out.println("Kayit guncellendi.");
@@ -81,6 +81,22 @@ public class PersonDAOImpl implements PersonDAO {
         } catch (Exception exception) {
             System.err.println(exception);
         }
+    }
+
+    @Override
+    public void getPersonAll() {
+        try {
+            Statement statement=null;
+            ResultSet resultSet ;
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM person");
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("id") + "    " + resultSet.getString("isim") + "   " + resultSet.getString("soyisim"));
+            }
+        } catch (Exception exception) {
+            System.err.println(exception);
+        }
+
     }
 
     @Override
