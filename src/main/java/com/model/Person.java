@@ -11,6 +11,12 @@ public class Person {
         this.soyisim = soyisim;
     }
 
+    public Person() {
+        this.id=-1;
+        this.isim="";
+        this.soyisim="";
+    }
+
     public int getId() {
         return id;
     }

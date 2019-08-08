@@ -1,8 +1,8 @@
 package com.dao;
 
-import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseTraversers;
 import com.model.Person;
 
+import java.beans.Expression;
 import java.util.*;
 import java.io.*;
 import java.sql.*;
@@ -84,19 +84,26 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void getPersonAll() {
+    public ArrayList<Person> getPersonAll() {
+        ArrayList<Person> personList = new ArrayList<Person>();
         try {
-            Statement statement=null;
-            ResultSet resultSet ;
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM person");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM person");
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("id") + "    " + resultSet.getString("isim") + "   " + resultSet.getString("soyisim"));
+                Person person = new Person();
+                person.setId(resultSet.getInt("id"));
+                person.setIsim(resultSet.getString("isim"));
+                person.setSoyisim(resultSet.getString("soyisim"));
+                personList.add(person);
             }
-        } catch (Exception exception) {
-            System.err.println(exception);
-        }
+            for (int i = 0; i < personList.size(); i++) {
+                System.out.println(personList.get(i));
 
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return personList;
     }
 
     @Override
