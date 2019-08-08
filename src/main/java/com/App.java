@@ -1,5 +1,6 @@
-package com.dao;
+package com;
 
+import com.dao.PersonDAOImpl;
 import com.model.Person;
 
 public class App {
