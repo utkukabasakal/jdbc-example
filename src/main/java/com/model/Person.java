@@ -1,20 +1,18 @@
 package com.model;
+
 public class Person {
 
     private int id;
     private String isim;
     private String soyisim;
 
+    public Person() {
+    }
+
     public Person(int id, String isim, String soyisim) {
         this.id = id;
         this.isim = isim;
         this.soyisim = soyisim;
-    }
-
-    public Person() {
-        this.id=-1;
-        this.isim="";
-        this.soyisim="";
     }
 
     public int getId() {

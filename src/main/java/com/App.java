@@ -1,15 +1,17 @@
 package com;
 
+import com.dao.PersonDAO;
 import com.dao.PersonDAOImpl;
 import com.model.Person;
 
 public class App {
-    public static void main (String [] args){
-       PersonDAOImpl personDAO = new PersonDAOImpl();
-        Person p=new Person(7,"veli","genc");
-        personDAO.updatePerson(p);
-        System.out.println(p);
-        PersonDAOImpl personDAO1= new PersonDAOImpl();
-        personDAO1.getPersonAll();
+    public static void main (String [] args) {
+
+        PersonDAO personDAO = new PersonDAOImpl();
+        Person person=new Person(7,"veli","genc");
+        personDAO.updatePerson(person);
+        System.out.println(person);
+        personDAO.getPersonAll();
+
     }
 }
