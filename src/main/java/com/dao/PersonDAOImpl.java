@@ -52,8 +52,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
     public ArrayList<Person> getPersonAll() {
         ArrayList<Person> personList = new ArrayList<Person>();
         try {
-
-            ResultSet resultSet =executeQuery(GET_PERSON_ALL);
+            ResultSet resultSet = executeQuery(GET_PERSON_ALL);
             while (resultSet.next()) {
                 Person person = new Person();
                 person.setId(resultSet.getInt("id"));
