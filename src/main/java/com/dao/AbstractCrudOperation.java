@@ -1,5 +1,7 @@
 package com.dao;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 public abstract class AbstractCrudOperation {
+    static Logger logger = Logger.getLogger(PersonDAO.class);
     private String jdbcUrl;
     private String jdbcUsername;
     private String jdbcPassword;
@@ -35,9 +38,9 @@ public abstract class AbstractCrudOperation {
         properties.setProperty("useSSL", "false");
         try {
             connection = DriverManager.getConnection(jdbcUrl, properties);
-            System.out.println("Veritababı bağlantısı kurulmuştur");
+            logger.info("Veritababı bağlantısı kurulmuştur");
         } catch (Exception e) {
-            System.err.println("Veritababı bağlantısı kurulamamıştır...  HATA : " + e);
+            logger.error("Veritababı bağlantısı kurulamamıştır...  HATA : " + e);
         }
 
     }
@@ -54,7 +57,7 @@ public abstract class AbstractCrudOperation {
             ps.execute();
 
         } catch (Exception e) {
-            System.err.println("ResultSet functionunda hata meydana geldi  HATA :" + e);
+           logger.error("ResultSet functionunda hata meydana geldi  HATA :" + e);
         }
     }
 
@@ -71,7 +74,7 @@ public abstract class AbstractCrudOperation {
             ResultSet resultSet = ps.executeQuery();
             return resultSet;
         } catch (Exception e) {
-            System.err.println("ResultSet functionunda hata meydana geldi  HATA :" + e);
+            logger.error("ResultSet functionunda hata meydana geldi  HATA :" + e);
         }
         return null;
     }
@@ -83,7 +86,7 @@ public abstract class AbstractCrudOperation {
             input = ClassLoader.getSystemClassLoader().getResourceAsStream("database.properties");
             prop.load(input);
         } catch (IOException io) {
-            System.err.println("input oluşturmada hata meydana geldi  HATA : " + io);
+            logger.error("input oluşturmada hata meydana geldi  HATA : " + io);
         }
         return prop;
     }
