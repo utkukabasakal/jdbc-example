@@ -1,10 +1,11 @@
-package com.dao;
+package com.service;
 
 import com.model.Person;
 
 import java.util.ArrayList;
 
-public interface PersonDAO {
+public interface PersonService {
+
     public Person getPersonById(int personId);
 
     public void addPerson(Person person);

@@ -12,18 +12,36 @@ import java.util.Properties;
 
 public abstract class AbstractCrudOperation {
     static Logger logger = Logger.getLogger(PersonDAO.class);
+    private String jdbcClass;
     private String jdbcUrl;
     private String jdbcUsername;
     private String jdbcPassword;
 
+
     private Connection connection;
+    public static final String PROPERTIES_FILE = "database.properties";
+
+    public static Properties properties = new Properties();
+
+    private Properties getPropertyOnText() {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+        if (inputStream != null) {
+            try {
+                properties.load(inputStream);
+            } catch (IOException e) {
+                // TODO Add your custom fail-over code here
+                e.printStackTrace();
+            }
+        }
+        return properties;
+    }
 
 
-
-    public void setConnection() {
+    public void setConnection() throws ClassNotFoundException {
 
         Properties prop = getPropertyOnText();
-
+        jdbcClass = prop.getProperty("jdbc.driverClassName");
+        Class.forName(jdbcClass);
         jdbcUrl = prop.getProperty("jdbc.url");
         jdbcUsername = prop.getProperty("jdbc.username");
         jdbcPassword = prop.getProperty("jdbc.password");
@@ -57,7 +75,7 @@ public abstract class AbstractCrudOperation {
             ps.execute();
 
         } catch (Exception e) {
-           logger.error("ResultSet functionunda hata meydana geldi  HATA :" + e);
+            logger.error("ResultSet functionunda hata meydana geldi  HATA :" + e);
         }
     }
 
@@ -79,15 +97,4 @@ public abstract class AbstractCrudOperation {
         return null;
     }
 
-    private Properties getPropertyOnText() {
-        Properties prop = new Properties();
-        InputStream input = null;
-        try {
-            input = ClassLoader.getSystemClassLoader().getResourceAsStream("database.properties");
-            prop.load(input);
-        } catch (IOException io) {
-            logger.error("input oluşturmada hata meydana geldi  HATA : " + io);
-        }
-        return prop;
-    }
 }

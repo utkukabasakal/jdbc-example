@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
 
     static Logger logger = Logger.getLogger(PersonDAO.class);
+
     private final String GET_PERSON_ID = "SELECT * FROM person Where id=?";
     private final String ADD_PERSON = "INSERT INTO person(id,isim,soyisim) VALUES(?,?,?)";
     private final String UPDATE_PERSON = "UPDATE person SET isim=?,soyisim=? WHERE id=? ";
@@ -17,7 +18,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
     private final String GET_PERSON_ALL = "SELECT * FROM person";
 
 
-    public PersonDAOImpl() {
+    public PersonDAOImpl() throws ClassNotFoundException {
         setConnection();
     }
 
@@ -26,7 +27,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
         try {
             ResultSet resultSet = executeQuery(GET_PERSON_ID, personId);
             while (resultSet.next()) {
-                int id = resultSet.getInt(personId);
+                int id = resultSet.getInt("id");
                 String isim = resultSet.getString("isim");
                 String soyisim = resultSet.getString("soyisim");
                 Person person = new Person(id, isim, soyisim);
@@ -34,7 +35,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
                 return person;
             }
         } catch (Exception e) {
-           logger.error("Veritabanından veri çekilirken hata oluşmuştur  Hata: " + e);
+            logger.error("Veritabanından veri çekilirken hata oluşmuştur  Hata: " + e);
         }
         return null;
     }
@@ -43,7 +44,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
     public void updatePerson(Person person) {
         try {
             execute(UPDATE_PERSON, person.getIsim(), person.getSoyisim(), person.getId());
-           logger.info("Kayit guncellendi.");
+            logger.info("Kayit guncellendi.");
 
         } catch (Exception e) {
             logger.error("Kayıt güncellenirken hata oluşmuştur.  Hata:" + e);
@@ -66,7 +67,7 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
             }
 
         } catch (Exception e) {
-            logger.error("Kayıt alınırken hata meydana gelmiştir.   Hata: "+e);
+            logger.error("Kayıt alınırken hata meydana gelmiştir.   Hata: " + e);
         }
         return personList;
     }
@@ -75,10 +76,10 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
     public void addPerson(Person person) {
         try {
             super.execute(ADD_PERSON, person.getId(), person.getIsim(), person.getSoyisim());
-           logger.info("Kayit eklendi.");
+            logger.info("Kayit eklendi.");
 
         } catch (Exception exception) {
-            logger.error("Kayıt eklenirken hata oluşmuştur.  Hata: "+exception);
+            logger.error("Kayıt eklenirken hata oluşmuştur.  Hata: " + exception);
         }
     }
 
@@ -86,6 +87,17 @@ public class PersonDAOImpl extends AbstractCrudOperation implements PersonDAO {
     public void deletePerson(int personId) {
         try {
             execute(DELETE_USER, personId);
+            logger.info("Kayit silindi.");
+
+        } catch (Exception exception) {
+            logger.error("Kayıt silinirken hata oluşmuştur.  Hata:" + exception);
+        }
+    }
+
+    @Override
+    public void deletePerson(Person person) {
+        try {
+            execute(DELETE_USER, person.getId());
             logger.info("Kayit silindi.");
 
         } catch (Exception exception) {
